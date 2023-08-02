@@ -29,7 +29,7 @@ class CosmeticsPatch : Patch() {
 
             ::channelClassName.isInitialized && cn.name.startsWith("$channelClassName$") -> {
                 val nameField = cn.fields.find { it.desc == "Ljava/lang/String;" }!!
-                cn.generateMethod("lcqt_getMethod", "()Ljava/lang/String;") {
+                cn.generateMethod("getMethodFujo", "()Ljava/lang/String;") {
                     aload(0)
                     getfield(cn.name, nameField.name, "Ljava/lang/String;")
                     areturn
@@ -79,7 +79,7 @@ class CosmeticsPatch : Patch() {
             invokevirtual("com/google/protobuf/ByteString", "toByteArray", "()[B")
 
             aload(requestIdx)
-            invokevirtual(requestClass, "lcqt_getMethod", "()Ljava/lang/String;")
+            invokevirtual(requestClass, "getMethodFujo", "()Ljava/lang/String;")
 
             swap
 

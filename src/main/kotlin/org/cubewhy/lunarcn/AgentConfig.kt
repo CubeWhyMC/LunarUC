@@ -3,14 +3,13 @@ package org.cubewhy.lunarcn
 import kotlinx.serialization.json.Json
 import org.cubewhy.lunarcn.patches.*
 import java.io.File
-import java.io.FileNotFoundException
 import java.lang.instrument.Instrumentation
 
-object Agent {
+object AgentConfig {
     val JSON = Json { ignoreUnknownKeys = true; prettyPrint = true }
-    lateinit var configFile: File private set
+    lateinit var configFile: File
 
-    private val CONFIG_PATH = System.getProperty("user.home") + "/.cubewhy/lunarcn/unlocker/config.json"
+    val CONFIG_PATH = System.getProperty("user.home") + "/.cubewhy/lunarcn/unlocker/config.json"
 
     @JvmStatic
     fun premain(arg: String, inst: Instrumentation) {

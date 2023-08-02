@@ -35,8 +35,12 @@ protobuf {
 }
 
 jar {
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
     manifest.attributes(
-            "Premain-Class": "org.cubewhy.lunarcn.Agent"
+            "Premain-Class": "org.cubewhy.lunarcn.Agent",
+            "Agent-Class": "org.cubewhy.lunarcn.Agent",
+            "Can-Redefine-Classes": true
     )
 }
 

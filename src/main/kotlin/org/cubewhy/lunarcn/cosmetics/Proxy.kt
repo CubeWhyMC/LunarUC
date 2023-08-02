@@ -1,6 +1,6 @@
 package org.cubewhy.lunarcn.cosmetics
 
-import org.cubewhy.lunarcn.Agent
+import org.cubewhy.lunarcn.AgentConfig
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import lunarapi.cosmetic.CosmeticService
@@ -16,13 +16,13 @@ object Proxy {
     private val assetDir = File(System.getProperty("user.home"), ".lunarclient/textures/assets/lunar")
 
     private val cosmeticsIndex = assetDir.resolve("cosmetics/index").readLines().map(CosmeticIndexEntry.Companion::fromLine)
-    private val emotesIndex = Agent.JSON.decodeFromString<EmoteIndex>(
+    private val emotesIndex = AgentConfig.JSON.decodeFromString<EmoteIndex>(
         assetDir.resolve("emotes/emotes.json").readText()
     ).emotes
 
-    private val configFile: File = Agent.configFile.resolveSibling("cosmetics.json")
+    private val configFile: File = File(assetDir, "cosmetics.json")
     private val config = runCatching {
-        Agent.JSON.decodeFromString<Config>(configFile.readText())
+        AgentConfig.JSON.decodeFromString<Config>(configFile.readText())
     }.getOrDefault(Config())
 
     @JvmStatic
@@ -116,6 +116,6 @@ object Proxy {
     )
 
     private fun Config.save() {
-        configFile.writeText(Agent.JSON.encodeToString(this))
+        configFile.writeText(AgentConfig.JSON.encodeToString(this))
     }
 }

@@ -1,0 +1,6 @@
+syntax = "proto3";
+package lunarapi.util;
+
+message Color {
+  int32 color = 1;
+}

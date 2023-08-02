@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id "com.google.protobuf" version "0.9.3"
+    id "com.github.johnrengelman.shadow" version "6.+"
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id "org.jetbrains.kotlin.plugin.serialization" version "1.9.0"
+}
+
+group = 'org.cubewhy.lunarcn'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url = "https://jitpack.io" }
+}
+
+configurations {
+    include
+    implementation.extendsFrom(include)
+}
+
+dependencies {
+    include "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    include "com.github.Nilsen84:kt-bytecode-dsl:v1.1"
+    include "org.ow2.asm:asm-tree:9.4"
+    include "com.google.protobuf:protobuf-kotlin:3.23.4"
+    include "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.23.4"
+    }
+}
+
+jar {
+    manifest.attributes(
+            "Premain-Class": "org.cubewhy.lunarcn.Agent"
+    )
+}
+
+shadowJar {
+    archiveClassifier.set("fatjar")
+    configurations = [project.configurations.include]
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+jar.dependsOn(shadowJar)

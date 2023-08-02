@@ -9,18 +9,13 @@ import java.lang.instrument.Instrumentation
 object Agent {
     val JSON = Json { ignoreUnknownKeys = true; prettyPrint = true }
     lateinit var configFile: File private set
-    lateinit var config: Config private set
 
     private val CONFIG_PATH = System.getProperty("user.home") + "/.cubewhy/lunarcn/unlocker/config.json"
 
     @JvmStatic
     fun premain(arg: String, inst: Instrumentation) {
         configFile = File(CONFIG_PATH)
-        config = try {
-            JSON.decodeFromString<Config>(File(CONFIG_PATH).readText())
-        } catch (e: FileNotFoundException) {
-            Config()
-        }
+        configFile.parentFile.mkdirs()
 
         val patches = mutableListOf<Patch>(ClassloaderPatch())
         patches += CosmeticsPatch()

@@ -16,8 +16,6 @@ public class Agent {
         List<Patch> patches = new ArrayList<>();
         patches.add(new CosmeticsPatch());
 
-
-
         System.out.println("Apply unlocker");
 
         instrumentation.addTransformer(new Transformer(patches));

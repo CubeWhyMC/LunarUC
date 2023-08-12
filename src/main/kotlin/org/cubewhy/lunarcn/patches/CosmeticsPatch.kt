@@ -2,6 +2,7 @@ package org.cubewhy.lunarcn.patches
 
 import io.github.nilsen84.bytecode_dsl.asm
 import org.cubewhy.lunarcn.Patch
+import org.cubewhy.lunarcn.cosmetics.Proxy
 import org.cubewhy.lunarcn.utils.*
 import org.cubewhy.lunarcn.utils.next
 import org.objectweb.asm.Opcodes.*
@@ -15,6 +16,11 @@ class CosmeticsPatch : Patch() {
     private lateinit var channelClassName: String
 
     override fun transform(cn: ClassNode): Boolean {
+        // init config
+        if (!Proxy.configFile.exists()) {
+            // create
+            Proxy.configFile.createNewFile()
+        }
         when {
             "com/google/protobuf/RpcChannel" in cn.interfaces -> {
                 channelClassName = cn.name

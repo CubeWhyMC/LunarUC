@@ -20,10 +20,11 @@ object Proxy {
         assetDir.resolve("emotes/emotes.json").readText()
     ).emotes
 
-    private val configFile: File = File(assetDir, "cosmetics.json")
+    val configFile: File = File(assetDir, "cosmetics.json")
     private val config = runCatching {
         AgentConfig.JSON.decodeFromString<Config>(configFile.readText())
     }.getOrDefault(Config())
+
 
     @JvmStatic
     fun onSend(method: String, contents: ByteArray): ByteArray {

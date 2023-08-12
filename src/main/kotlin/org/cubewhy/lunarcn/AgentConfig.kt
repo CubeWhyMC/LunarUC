@@ -7,14 +7,14 @@ import java.lang.instrument.Instrumentation
 
 object AgentConfig {
     val JSON = Json { ignoreUnknownKeys = true; prettyPrint = true }
-    lateinit var configFile: File
+    private lateinit var configFile: File
 
-    val CONFIG_PATH = System.getProperty("user.home") + "/.cubewhy/lunarcn/unlocker/config.json"
+    val CONFIG_PATH = System.getProperty("user.home") + "/.cubewhy/lunarcn/unlocker/"
 
     @JvmStatic
     fun premain(arg: String, inst: Instrumentation) {
         configFile = File(CONFIG_PATH)
-        configFile.parentFile.mkdirs()
+        configFile.mkdirs() // create dirs
 
         val patches = mutableListOf<Patch>(ClassloaderPatch())
         patches += CosmeticsPatch()
